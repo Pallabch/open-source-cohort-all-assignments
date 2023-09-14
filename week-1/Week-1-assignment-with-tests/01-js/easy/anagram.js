@@ -8,7 +8,13 @@
 */
 
 function isAnagram(str1, str2) {
-
+  str1sorted = str1.toLowerCase().split('').sort().join('');
+  str2sorted = str2.toLowerCase().split('').sort().join('');
+  if(str1sorted == str2sorted)
+    return true;
+  else
+    return false;
 }
 
+console.log(isAnagram("lion","lin"));
 module.exports = isAnagram;

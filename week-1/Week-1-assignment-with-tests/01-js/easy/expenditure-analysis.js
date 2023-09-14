@@ -9,7 +9,20 @@
 */
 
 function calculateTotalSpentByCategory(transactions) {
-  return [];
+  var mapu = new Map();
+  transactions.forEach(element => {
+    mapu.set(element.category,0);
+  });
+  transactions.forEach(element => {
+    var price = mapu.get(element.category);
+    price += element.price;
+    mapu.set(element.category,price);
+  });
+  var answer = []
+  mapu.forEach((value,key) =>{
+    answer.push({"category":key,"totalSpent":value});
+  })
+  return answer;
 }
 
 module.exports = calculateTotalSpentByCategory;

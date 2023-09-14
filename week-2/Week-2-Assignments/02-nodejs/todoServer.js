@@ -41,9 +41,52 @@
  */
 const express = require('express');
 const bodyParser = require('body-parser');
-
+const port = 3000;
 const app = express();
 
 app.use(bodyParser.json());
 
 module.exports = app;
+
+//Code Begins Here
+app.get('/todos',getTodoList)
+app.post('/todos',postTodoList)
+app.get('/todos/:id',getTodoItem)
+
+var toDoList = []
+
+function getTodoList(req,res)
+{
+  res.json(toDoList);
+}
+
+function postTodoList(req,res)
+{
+  var title = req.body.title;
+  var completed = req.body.completed;
+  var description = req.body.description;
+  var toDoObject = {
+    "id" : Math.floor(Math.random() * 1000000),
+    "title" : title,
+    "completed" : completed,    
+    "description" : description,
+  };
+  toDoList.push(toDoObject);
+  res.status(201).json(toDoObject);
+}
+
+function getTodoItem(req,res)
+{
+  console.log(req.params.id);
+  var id = parseInt(req.params.id);
+  const todo = toDoList.find(o => o.id === id);
+  if (!todo) {
+    res.status(404).send();
+  } else {
+    res.json(todo);
+  }
+}
+
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`)
+})
